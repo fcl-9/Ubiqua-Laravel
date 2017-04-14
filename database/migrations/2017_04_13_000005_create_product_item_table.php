@@ -15,7 +15,7 @@ class CreateProductItemTable extends Migration
     {
         Schema::create('product_item', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->float('actual_weight');
             $table->float('previous_weight');
             $table->dateTime('updated_on');
