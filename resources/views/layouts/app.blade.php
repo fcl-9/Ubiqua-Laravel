@@ -11,7 +11,12 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/navbar.css') }}" rel="stylesheet">
+
+    @yield('head')
 
     <!-- Scripts -->
     <script>
@@ -22,8 +27,8 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -36,7 +41,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <span class="white">{{ config('app.name', 'Laravel') }}</span>
                     </a>
                 </div>
 
@@ -50,12 +55,12 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login') }}"><span class="white">Login</span></a></li>
+                            <li><a href="{{ route('register') }}"><span class="white">Register</span></a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    <span class="white">{{ Auth::user()->name }}</span> <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
@@ -63,7 +68,7 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            <span class="white">Logout</span>
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
