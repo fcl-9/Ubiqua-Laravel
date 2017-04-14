@@ -1,0 +1,6 @@
+.navbar{ border-radius: 0; background-color: #ec971f; color:white;border-color: #eea236; margin-bottom: 0}
+.white, .white a {
+    color: #fff;
+}
+.navbar-toggle{ border-color: white;}
+.navbar-right a { padding-top: 15px; background-color: #ec971f; border-color: #ec971f;}

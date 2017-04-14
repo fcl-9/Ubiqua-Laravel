@@ -19,3 +19,14 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('/stock', 'HomeController@stock');
+
+Route::get('/shopping_list', 'HomeController@shopping_list');
+
+Route::get('/sensors', 'HomeController@sensors');
+
+Route::get('/recipes', 'HomeController@recipes');
+
+Route::get('/settings', 'HomeController@settings');
+
+

@@ -25,4 +25,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function device(){
+        return $this->hasMany('App\Device');
+    }
 }

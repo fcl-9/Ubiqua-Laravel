@@ -1,0 +1,15 @@
+btn :active:hover {border-color: #ec971f; }
+.btn-lg{
+    width:100%;
+}
+.btn{
+    border:0px solid transparent;}
+.image{
+    position: relative;
+    width:100%
+}
+.image-caption{
+    position: absolute;
+    top: 40px;
+    left: 20px;
+}
