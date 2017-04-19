@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('scripts')
+    <script src="{{ asset('js/loader.js') }}"></script>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -127,6 +131,7 @@
         }
 
         function beaconSocketHandlers(url, chart, data, options) {
+            $("#beacons").text("Please wait until we get some information...");
             var socket = new WebSocket(url); //#A
             socket.onmessage = function (event) { //#B
                 var result = JSON.parse(event.data).value.length;
@@ -134,13 +139,14 @@
             };
 
             socket.onerror = function (error) { //#C
-                $("#beacons").text("For some reason it's not possible to access this infomation right now.");
+                $("#beacons").text("For some reason it's not possible to access this information right now.");
                 console.log('WebSocket error!');
                 console.log(error);
             };
         }
 
         function socketHandlers(url, chart, data, options, id) {
+            $(id).text("Please wait until we get some information...");
             var socket = new WebSocket(url); //#A
             socket.onmessage = function (event) { //#B
                 var result = JSON.parse(event.data).value;
@@ -148,7 +154,7 @@
             };
 
             socket.onerror = function (error) { //#C
-                $(id).text("For some reason it's not possible to access this infomation right now.");
+                $(id).text("For some reason it's not possible to access this information right now.");
                 console.log('WebSocket error!');
                 console.log(error);
             };

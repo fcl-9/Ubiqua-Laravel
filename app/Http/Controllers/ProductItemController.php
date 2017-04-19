@@ -41,7 +41,10 @@ class ProductItemController extends Controller
         $product_item->lot_id =$lot_id;
         $product_item->device_id = $device_id;
         $product_item->lot_product_id = $product_id;
+        var_dump("will save");
+        var_dump($product_item);
         $product_item->save();
+        var_dump("saved inside");
     }
 
     public function handleNewProductsInformation(Request $request)
@@ -49,19 +52,24 @@ class ProductItemController extends Controller
         \DB::transaction(function() use($request){
             $request = $request->json()->all();
             $device_id = $request["device_id"];
-            $beacons = $request["beacons"];
+            $beacons = json_decode($request["beacons"],true);
             $total_weight = $request["weight"];
             try {
                 foreach ($beacons as $beacon) {
+                    var_dump($beacon);
                     $id = $beacon["uuid"];
+                    var_dump($id);
                     $product_id = $beacon["major"];
                     $lot_id = $beacon["minor"];
                     $distance = $beacon["distance"];
                     $product_item = $this->getProductItem($id);
                     if (is_null($product_item)) {
                         // product_item is new
+                        var_dump("new");
                         $weight = $this->getNewProductWeight($product_id);
+                        var_dump("weight");
                         $this->addNewProductItem($id, $weight, $device_id, $product_id, $lot_id, $distance);
+                        var_dump("new added");
                     } else {
                         // product_item already exists in DB
                         if ($product_item->state == "IN") {
@@ -89,6 +97,7 @@ class ProductItemController extends Controller
                         $this->changeProductStateToOUT($actual_product);
                     }
                 }
+                var_dump("will commit");
                 \DB::commit();
                 return response()->json(["message" => "success"]);
             }
