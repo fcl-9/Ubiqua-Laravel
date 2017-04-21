@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('api')->post('/device', "DeviceController@handleDeviceRegistration");
+
+Route::middleware('api')->post('/sensors/data', "ProductItemController@handleNewProductsInformation");
+

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('head')
-   <link href="{{ asset('css/home.css') }}" rel="stylesheet">
+@section('css')
+    <link href="{{ asset('css/home.css') }}" rel="stylesheet">
     <style>
         .container{
             padding-top:0;
