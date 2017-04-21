@@ -139,7 +139,13 @@
                     brandtextWidth,
                     brandtextWidth2;
 
-                dialRadius = parseInt(radius-(el.size/50), 10);
+                dialRadius = parseInt(radius-(el.size/50) - 10, 10);
+                dialRadiusFora = parseInt(radius-(el.size/50), 10);
+                ctx.beginPath();
+                 ctx.strokeStyle = "orange";
+                 ctx.arc(0,0,dialRadiusFora,0,360,false);
+                 ctx.stroke();
+
                 dialBackRadius = radius-(el.size/400);
 
                 ctx.beginPath();
