@@ -14,8 +14,19 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/navbar.css') }}" rel="stylesheet">
+    <!--<link href="{{ asset('css/navbar.css') }}" rel="stylesheet">-->
+    <style>
+        .btn-block {
+            border-radius: 0;
+            height: 100%;
+        }
 
+        #app{
+            height: calc(100% - 72px);
+            width:100%;
+        }
+
+    </style>
     @yield('head')
 
     <!-- Scripts -->
@@ -27,7 +38,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-inverse" style="border-radius: 0;">
             <div class="container-fluid">
                 <div class="navbar-header">
 
@@ -52,7 +63,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-right" >
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ route('login') }}"><span class="white">Login</span></a></li>
@@ -60,7 +71,7 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    <span class="white">{{ Auth::user()->name }}</span> <span class="caret"></span>
+                                    Welcome <span class="white">{{ Auth::user()->name }}</span> <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
