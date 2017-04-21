@@ -30,7 +30,6 @@
             margin: 0 auto;
             left: 0;
             right: 0;
-
         }
         .height-adjust img{
             padding-top: 30px;
