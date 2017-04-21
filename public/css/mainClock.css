@@ -1,4 +1,4 @@
-body{
+/*body{
 	padding:50px 0px 0px 0px;
 	margin:0;
 	font-family:'PT sans';
@@ -23,8 +23,7 @@ body{
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover; 
-}
-
+}*/
 h2{
 	font-size:30px;
 	color:#000;
@@ -40,53 +39,59 @@ h3{
 }
 
 canvas{
-	
+	background:url("https://static1.squarespace.com/static/548c9344e4b08a093ba313fd/t/56cfa6b020c647897cc48d5b/1456449200691/1-composition-with-variety-of-grocery-products-t-monticello.jpg?format=2500w&quot");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 60%;
 }
 
-.container{
+.clock-container{
 	width:100%;
+	height: 100%;
 	display:inline-block;
 	vertical-align:middle;
 	text-align:center;
 }
-
-.clock{
+	/*
+	.clock{
 	display:inline;
-}
-
-.alarm{
+	}*/
+	/*
+	.alarm{
 	display:none;
 	margin:10px 0px 0px 0px;
-}
+	}
 
-.alarm a{
+	.alarm a{
 	text-decoration:none;
 	padding:5px 10px 5px 10px;
 	color:#FFF;
 	background-color:#026729;
 	border-radius:5px;
-}
+	}
 
-.alarm a:hover{
+	.alarm a:hover{
 	text-decoration:none;
 	padding:4px 9px 4px 9px;
 	color:#fefefe;
 	background-color:#026729;
 	border-radius:5px;
-}
+	}
 
-#set{
+	#set{
 	text-decoration:none;
 	padding:5px 10px 5px 10px;
 	color:#FFF;
 	background-color:#F3A829;
 	border-radius:5px;
-}
+	}
 
-#set:hover{
+	#set:hover{
 	text-decoration:none;
 	padding:4px 9px 4px 9px;
 	color:#fefefe;
 	background-color:#F3A829;
 	border-radius:5px;
-}
+	}
+	*/
+	}

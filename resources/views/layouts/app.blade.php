@@ -14,21 +14,22 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/navbar.css') }}" rel="stylesheet">
 
+    <style>
+        .btn-block {
+            border-radius: 0;
+            height: 100%;
+        }
+
+        #app{
+            height: calc(100% - 72px);
+            width:100%;
+        }
+
+    </style>
     @yield('css')
 
-    @yield('scripts')
 
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script>
-        window.Laravel = {!! json_encode([
-            'csrfToken' => csrf_token(),
-        ]) !!};
-    </script>
 </head>
 <body>
     <div id="app">
@@ -65,15 +66,15 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    Welcome <span class="white">{{ Auth::user()->name }}</span> <span class="caret"></span>
+                                    Welcome <span>{{ Auth::user()->name }}</span> <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
+                                           onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            <span class="white">Logout</span>
+                                            <span>Logout</span>
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -92,6 +93,13 @@
     </div>
 
     <!-- Scripts -->
+    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
 </body>
 </html>
