@@ -25,12 +25,15 @@
             color: white;
             text-decoration: none;
             font-weight: bold;
-            font-size: 16px;
-            bottom: 0;
+            font-size: 25px;
+            bottom: 25px;
             margin: 0 auto;
             left: 0;
             right: 0;
 
+        }
+        .height-adjust img{
+            padding-top: 30px;
         }
     </style>
 @endsection
@@ -40,23 +43,23 @@
         <div class="row" style="height: 100%;">
             <div class="col-md-6 " style="height: 100%; padding-right: 0;">
                 <div class="clock-container">
-                    <div id="myclock"></div>
+                    <div id="myclock" style="margin-top:80px;"></div>
                 </div>
 
             </div>
             <div class="col-md-6" style="height: 100%;" style="padding-right: 0">
                 <div class="row" style="height: 100%;">
                     <div class="col-md-6 height-adjust">
-                        <a class="btn btn-block" style="position: relative; background-color: #ed9c9b;" href="#" role="button"><img src="/img/tobuy.png"><span class="button-font">To Buy</span></a>
+                        <a class="btn btn-block" style="position: relative; background-color: #ed9c9b;" href="/shopping_list" role="button"><img src="/img/g4.png"><span class="button-font">To Buy</span></a>
                     </div>
                     <div class="col-md-6 height-adjust">
-                        <a class="btn btn-block" style="position: relative; background-color: #f7bc3a" href="#" role="button"><span class="button-font">Stock</span></a>
+                        <a class="btn btn-block" style="position: relative; background-color: #f7bc3a" href="/stock" role="button"><img src="/img/g3.png"><span class="button-font">Stock</span></a>
                     </div>
                     <div class="col-md-6 height-adjust">
-                        <a class="btn btn-block" style="position: relative; background-color: #c0e6e7" href="#" role="button"><span class="button-font">Sensor</span></a>
+                        <a class="btn btn-block" style="position: relative; background-color: #c0e6e7" href="/sensors" role="button"><img src="/img/g1.png"><span class="button-font">Sensor</span></a>
                     </div>
                     <div class="col-md-6 height-adjust">
-                        <a class="btn btn-block" style="position: relative; background-color: #b2d233" href="#" role="button"><span class="button-font">Recipes</span></a>
+                        <a class="btn btn-block" style="position: relative; background-color: #b2d233" href="/recipes" role="button"><img src="/img/g2.png"><span class="button-font">Recipes</span></a>
                     </div>
                 </div>
             </div>
