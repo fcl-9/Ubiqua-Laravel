@@ -36,10 +36,6 @@ class HomeController extends Controller
         return view('recipes');
     }
 
-    public function shopping_list()
-    {
-        return view('shopping_list');
-    }
 
     public function sensors()
     {

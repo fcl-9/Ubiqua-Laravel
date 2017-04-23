@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('/stock', 'HomeController@stock');
 
-Route::get('/shopping_list', 'HomeController@shopping_list');
+Route::get('/shopping_list', 'ToBuyController@index');
 
 Route::get('/sensors', 'HomeController@sensors');
 

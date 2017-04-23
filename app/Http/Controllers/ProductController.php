@@ -27,10 +27,7 @@ class ProductController extends Controller
         }
     }
 
-    private function getToBuyProducts()
-    {
-        return Product::where("state", "TOBUY");
-    }
+
 
     private function updateProductState($state, $id)
     {
@@ -43,5 +40,12 @@ class ProductController extends Controller
             $product_item->save();
             return true;
         }
+    }
+
+    public function getNameNotInBuyList(Request $request){
+        /*Returns all the names of the products that are not in the shopping lists*/
+        $data = Product::where('state','=',$request->input('state'))->select('product.id','product.name')->get();
+        $json = '{response:'.$data.'}';
+        return response()->json($json);
     }
 }
