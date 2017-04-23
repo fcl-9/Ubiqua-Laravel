@@ -44,4 +44,13 @@ class ProductController extends Controller
             return true;
         }
     }
+
+    public function handleProductStateChange(Request $request, $id)
+    {
+        if($this->updateProductState($request->state,$id)) {
+            return response("OK",200);
+        }else {
+            return response("Error",400);
+        }
+    }
 }

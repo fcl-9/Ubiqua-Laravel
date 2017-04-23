@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/stock', 'HomeController@stock');
+Route::get('/stock', 'StockController@stock');
 
 Route::get('/shopping_list', 'HomeController@shopping_list');
 
