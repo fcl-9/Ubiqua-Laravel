@@ -139,7 +139,13 @@
                     brandtextWidth,
                     brandtextWidth2;
 
-                dialRadius = parseInt(radius-(el.size/50), 10);
+                dialRadius = parseInt(radius-(el.size/50) - 10, 10);
+                dialRadiusFora = parseInt(radius-(el.size/50), 10);
+                ctx.beginPath();
+                 ctx.strokeStyle = "black";
+                 ctx.arc(0,0,dialRadiusFora,0,360,false);
+                 ctx.stroke();
+
                 dialBackRadius = radius-(el.size/400);
 
                 ctx.beginPath();
@@ -223,7 +229,7 @@
             
 
             function drawSecondHand(seconds, color){
-                var shlength = (radius)-(el.size/40);
+                var shlength = (radius - 10)-(el.size/40);
                 
                 ctx.save();
                 ctx.lineWidth = parseInt(el.size/150,10);
@@ -255,7 +261,7 @@
             }
 
             function drawMinuteHand(minutes, color){
-                var mhlength = el.size/2.2;
+                var mhlength = el.size/2.2 - 2;
                 ctx.save();
                 ctx.lineWidth = parseInt(el.size/50,10);
                 ctx.lineCap = "round";

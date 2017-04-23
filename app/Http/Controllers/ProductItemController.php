@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Device;
-use App\Lot;
 use App\Product;
 use App\Product_item;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProductItemController extends Controller
 {
+    const THRESHOLD = 2;
+
     public function changeProductItemWeight($weight, $product_item)
     {
         $previous_weight = $product_item->actual_weight;
@@ -27,7 +26,7 @@ class ProductItemController extends Controller
             return false;
         }
         else {
-            return $product_item->acutal_weight;
+            return $product_item->actual_weight;
         }
     }
 
@@ -41,10 +40,8 @@ class ProductItemController extends Controller
         $product_item->lot_id =$lot_id;
         $product_item->device_id = $device_id;
         $product_item->lot_product_id = $product_id;
-        var_dump("will save");
-        var_dump($product_item);
         $product_item->save();
-        var_dump("saved inside");
+        $this->updateStockState($product_id);
     }
 
     public function handleNewProductsInformation(Request $request)
@@ -53,7 +50,7 @@ class ProductItemController extends Controller
             $request = $request->json()->all();
             $device_id = $request["device_id"];
             $beacons = json_decode($request["beacons"],true);
-            $total_weight = $request["weight"];
+            $total_weight_when_closed = $request["weight"];
             try {
                 foreach ($beacons as $beacon) {
                     var_dump($beacon);
@@ -62,14 +59,12 @@ class ProductItemController extends Controller
                     $product_id = $beacon["major"];
                     $lot_id = $beacon["minor"];
                     $distance = $beacon["distance"];
+                    $total_weight = $beacon["total_weight"];
                     $product_item = $this->getProductItem($id);
                     if (is_null($product_item)) {
                         // product_item is new
-                        var_dump("new");
                         $weight = $this->getNewProductWeight($product_id);
-                        var_dump("weight");
                         $this->addNewProductItem($id, $weight, $device_id, $product_id, $lot_id, $distance);
-                        var_dump("new added");
                     } else {
                         // product_item already exists in DB
                         if ($product_item->state == "IN") {
@@ -126,6 +121,7 @@ class ProductItemController extends Controller
         $product_item = $this->changeProductItemWeight($weight,$product_item);
         $product_item->distance = $distance;
         $product_item->save();
+        $this->updateStockState($product_item->lot_product_id);
     }
 
     private function getNewProductWeight($product_id)
@@ -135,13 +131,27 @@ class ProductItemController extends Controller
 
     private function getExistingProductNewWeight($total_weight)
     {
-        $total_product_weight = \DB::table("product_item")->sum("actual_weight");
-        return $total_weight + $total_product_weight;
+        $total_product_weight = \DB::table("product_item")->where("state", "IN")->sum("actual_weight");
+        return $total_weight - $total_product_weight;
     }
 
     private function changeProductStateToOUT($actual_product)
     {
         $actual_product->state = "OUT";
         $actual_product->save();
+        $this->updateStockState($actual_product->lot_product_id);
+    }
+
+    private function updateStockState($product_id) {
+        $product = Product::find($product_id);
+        $product_lots = $product->lot;
+        $items_available = $product_lots->product_item->where("state","IN")->count();
+        if ($items_available > self::THRESHOLD) {
+            $product->state = "ONSTOCK";
+        }
+        else {
+            $product->state = "TOBUY";
+        }
+        $product->save();
     }
 }

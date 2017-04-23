@@ -27,7 +27,10 @@ class ProductController extends Controller
         }
     }
 
-
+    private function getToBuyProducts()
+    {
+        return Product::where("state", "TOBUY");
+    }
 
     private function updateProductState($state, $id)
     {
@@ -47,5 +50,14 @@ class ProductController extends Controller
         $data = Product::where('state','=',$request->input('state'))->select('product.id','product.name')->get();
         $json = '{response:'.$data.'}';
         return response()->json($json);
+    }
+
+    public function handleProductStateChange(Request $request, $id)
+    {
+        if($this->updateProductState($request->state,$id)) {
+            return response("OK",200);
+        }else {
+            return response("Error",400);
+        }
     }
 }
