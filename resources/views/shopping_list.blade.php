@@ -126,7 +126,7 @@
                             persist:true,
                             render: {
                                 option: function (item, escape) {
-                                    console.log(item);
+                                    //console.log(item);
                                     return '<div>' +
                                             '<span class="title">' +
                                             '   <span class="name">'+ escape(item.name) + '</span>' +
@@ -164,6 +164,38 @@
                                 error: error
                             });
                             select[0].selectize.removeItem(items[i].getAttribute("data-value"));
+                            var num_rows = $('#shopping_list tr').length - 1;
+                            console.log("The number of rows is" + num_rows);
+                            console.log($('#shopping_list tbody').first().text());
+                            if(num_rows == 1  && $('#shopping_list tbody').first().text().replace(/\s+/g, '') =="No data available in table".replace(/\s+/g, '')){
+                                $('#shopping_list tbody').empty();
+                                console.log("Remove First Row");
+                            }
+                            if(num_rows%2 === 0){
+                                //Even
+                                $('#shopping_list tbody').append(
+                                '<tr role="row" class="even">'+
+                                    '<td class="sorting_1">'+ items[i].outerText +'</td>' +
+                                    '<td>0</td>' +
+                                    '<td>'+
+                                        '<i aria-hidden="true" class="fa fa-trash-o" style="color: rgb(237, 156, 155); font-size: 18px;"> </i>'+
+                                        '<input type="hidden" value="'+ items[i].getAttribute("data-value") +'">'+
+                                    '</td>'+
+                                    '</tr>'
+                                );
+                            }else{
+                                //Odd
+                                $('#shopping_list tbody').append(
+                                    '<tr role="row" class="odd">'+
+                                        '<td class="sorting_1">'+ items[i].outerText +'</td> '+
+                                            '<td>100</td>'+
+                                            '<td>' +
+                                                '<i aria-hidden="true" class="fa fa-trash-o" style="color: rgb(237, 156, 155); font-size: 18px;"></i>'+
+                                                '<input type="hidden" value="'+ items[i].getAttribute("data-value") +'">'+
+                                        '</td>'+
+                                    '</tr>'
+                                );
+                            }
                         }
 
                         function error (e){
@@ -178,16 +210,25 @@
                             selectize.renderCache = {};
                         }
                     });
-                    $('.fa-trash-o').click(function () {
+                    $(document.body).on('click','.fa-trash-o',function () {
                         var selected = $(this);
                         var id_product = selected.next().val();
                         $.post("/api/product/" + id_product + "/state", {"state": "DISABLE"} ,function() {
                             $("#alert").addClass("alert alert-success").attr("role","alert").html("The product was removed from your To Buy list!");
-
+                            //window.setTimeout(function(){location.reload()},2000)
                         }).fail(function(err) {
                             console.log(err);
                             $("#alert").addClass("alert alert-danger").attr("role","alert").html("<b>Oh snap!</b> Some problem occured removing the product from the To Buy List");
                         });
+                        $(this).closest('tr').remove();
+                        var num_rows = $('#shopping_list tr').length - 1;
+                        if(num_rows === 0){
+                            $('#shopping_list tbody').append(
+                                '<tr class="odd">'+
+                                    '<td valign="top" colspan="3" class="dataTables_empty">No data available in table</td>'+
+                                '</tr>'
+                            );
+                        }
                     });
                 });
             </script>
