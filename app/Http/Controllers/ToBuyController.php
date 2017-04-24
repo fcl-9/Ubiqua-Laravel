@@ -17,12 +17,20 @@ class ToBuyController extends Controller
     private function getToBuyProducts()
     {
         //return Product::where("state", "TOBUY")->get();
-        return DB::table('product')
-            ->join('lot','lot.product_id','=','product.id')
-            ->join('product_item',function($join){
-                $join->on('lot.product_id','=','product_item.lot_product_id')
-                    ->on('lot.id','=','product_item.lot_id');
-            })->where('product.state','=','TOBUY')
-            ->select('product_item.actual_weight','product.name')->get();
+        $products = Product::where("state", "=", "TOBUY")->get();
+        $tobuyProducts = [];
+        foreach ($products as $product) {
+            $stock_product = [];
+            $stock_product["id"] = $product->id;
+            $stock_product["name"] = $product->name;
+            $product_lots = $product->lot;
+            $quantity = 0;
+            foreach ($product_lots as $lot){
+                $quantity += $lot->product_item->where("state","IN")->sum("actual_weight");
+            }
+            $stock_product["quantity"] = $quantity;
+            array_push($tobuyProducts,$stock_product);
+        }
+        return $tobuyProducts;
     }
 }
