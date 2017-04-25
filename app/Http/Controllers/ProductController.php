@@ -48,8 +48,21 @@ class ProductController extends Controller
     public function getNameNotInBuyList(Request $request){
         /*Returns all the names of the products that are not in the shopping lists*/
         if($request->input('state') == "NOTOBUY") {
-            $data = Product::where('state', '!=','TOBUY')->select('product.id', 'product.name')->get();
-            $json = array("response" => $data);
+            $available_products = Product::where('state', '!=','TOBUY')->select('product.id', 'product.name')->get();
+            $tobuy_products = [];
+            foreach ($available_products as $product){
+                $new_product = [];
+                $new_product['id'] = $product->id;
+                $new_product['name'] = $product->name;
+                $quantity = 0;
+                $product_lots = $product->lot;
+                foreach ($product_lots as $lot){
+                    $quantity += $lot->product_item->where("state","IN")->sum("actual_weight");
+                }
+                $new_product["quantity"] = $quantity;
+                array_push($tobuy_products,$new_product);
+            }
+            $json = array("response" => $tobuy_products);
             return response()->json($json);
         }
         else{
