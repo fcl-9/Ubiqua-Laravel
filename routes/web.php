@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return redirect("/home");
+    return view('welcome');
 });
 
 Auth::routes();
@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('/stock', 'StockController@stock');
 
-Route::get('/shopping_list', 'ToBuyController@shopping_list');
+Route::get('/shopping_list', 'ToBuyController@index');
 
 Route::get('/sensors', 'SensorsController@sensors');
 
