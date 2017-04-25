@@ -38,6 +38,9 @@
             background-color: #ed9c9b;
             color:white;
         }
+        .weight{
+            font-size:10px;
+        }
     </style>
 @endsection
 
@@ -46,10 +49,10 @@
         <img width="40" height="40" src="/img/g4.png">
         <span class="font-header"> To Buy </span>
     </div>
-    <div id="alert"></div>
     <div style="margin-top: 20px;"></div>
     <div class="row">
         <div class="col-md-12">
+            <div id="alert"></div>
             <span class="font-shop-list">Shopping List</span>
             <div style="margin-top:20px;"></div>
             <table class="table table-striped" id="shopping_list">
@@ -116,7 +119,8 @@
 
             <script>
                 $(document).ready(function() {
-                    $('#shopping_list').DataTable();
+                    var shopping_list_table = $('#shopping_list').DataTable({
+                    });
 
                     var select = $('#inputProductName').selectize({
                             valueField: 'id',
@@ -129,9 +133,14 @@
                                     //console.log(item);
                                     return '<div>' +
                                             '<span class="title">' +
-                                            '   <span class="name">'+ escape(item.name) + '</span>' +
-                                            '</span>' +
+                                            '   <span class="name">'+ escape(item.name)+'</span>' +
+                                            '</span>'+
+                                            '<br>'+
+                                            '   <span class="weight">Available weight <strong>' + escape(item.quantity) + '</strong> g </span>' +
                                             '</div>';
+                                },
+                                item: function(data){
+                                    return "<div data-value='"+data.id+"' data-weight='"+data.quantity+"' class='item'>"+data.name+" </div>";
                                 }
                             },
                             load: function (query, callback) {
@@ -143,7 +152,6 @@
                                         callback();
                                     },
                                     success: function (res) {
-                                        //console.log("Ajax Request");
                                         callback(res.response.slice(0, 10));
                                     }
                                 });
@@ -154,7 +162,6 @@
                         var data = {"state": "TOBUY"};
                         var items = $('.selectize-input').children(".item");
                         for (var i = 0; i < items.length; i++) {
-                            console.log(items[i].outerText);
                             url="http://localhost:8000/api/product/"+items[i].getAttribute("data-value")+"/state";
                             $.ajax({
                                 type: "POST",
@@ -163,73 +170,47 @@
                                 success: success,
                                 error: error
                             });
+                            console.log(items);
                             select[0].selectize.removeItem(items[i].getAttribute("data-value"));
-                            var num_rows = $('#shopping_list tr').length - 1;
-                            console.log("The number of rows is" + num_rows);
-                            console.log($('#shopping_list tbody').first().text());
-                            if(num_rows == 1  && $('#shopping_list tbody').first().text().replace(/\s+/g, '') =="No data available in table".replace(/\s+/g, '')){
-                                $('#shopping_list tbody').empty();
-                                console.log("Remove First Row");
-                            }
-                            if(num_rows%2 === 0){
-                                //Even
-                                $('#shopping_list tbody').append(
-                                '<tr role="row" class="even">'+
-                                    '<td class="sorting_1">'+ items[i].outerText +'</td>' +
-                                    '<td>0</td>' +
-                                    '<td>'+
-                                        '<i aria-hidden="true" class="fa fa-trash-o" style="color: rgb(237, 156, 155); font-size: 18px;"> </i>'+
-                                        '<input type="hidden" value="'+ items[i].getAttribute("data-value") +'">'+
-                                    '</td>'+
-                                    '</tr>'
-                                );
-                            }else{
-                                //Odd
-                                $('#shopping_list tbody').append(
-                                    '<tr role="row" class="odd">'+
-                                        '<td class="sorting_1">'+ items[i].outerText +'</td> '+
-                                            '<td>100</td>'+
-                                            '<td>' +
-                                                '<i aria-hidden="true" class="fa fa-trash-o" style="color: rgb(237, 156, 155); font-size: 18px;"></i>'+
-                                                '<input type="hidden" value="'+ items[i].getAttribute("data-value") +'">'+
-                                        '</td>'+
-                                    '</tr>'
-                                );
-                            }
+                            var row = [items[i].outerText,
+                                    items[i].getAttribute("data-weight"),
+                                    '<i aria-hidden="true" class="fa fa-trash-o" style="color: rgb(237, 156, 155); font-size: 18px;"> </i>'+
+                                    '<input type="hidden" value="'+ items[i].getAttribute("data-value") +'">'];
+                            shopping_list_table.row.add( row ).draw();
                         }
 
                         function error (e){
-                            $("#alert").addClass("alert alert-danger").attr("role","alert").html("<b>Oh snap!</b> Some problem occured adding the product to the To Buy List");
+                            $("#alert").addClass("alert alert-danger").attr("role","alert").html("<b>Oh snap!</b> Some problem occured adding the product to the To Buy List").append('<button type="button" class="close alert-close" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
                         }
 
                         function success(){
-                            $("#alert").addClass("alert alert-success").attr("role","alert").html("New items were added to your shopping list!");
+                            $("#alert").addClass("alert alert-success").attr("role","alert").html("New items were added to your shopping list!").append('<button type="button" class="close alert-close" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+                            $("#alert").show();
 
                             var selectize = select[0].selectize;
                             selectize.clearOptions();
                             selectize.renderCache = {};
                         }
+                        $("#alert").show();
                     });
                     $(document.body).on('click','.fa-trash-o',function () {
-                        var selected = $(this);
-                        var id_product = selected.next().val();
+                        var id_product = $(this).next().val();
+                        $("#alert").show();
                         $.post("/api/product/" + id_product + "/state", {"state": "DISABLE"} ,function() {
-                            $("#alert").addClass("alert alert-success").attr("role","alert").html("The product was removed from your To Buy list!");
-                            //window.setTimeout(function(){location.reload()},2000)
+                            console.log("Enter remove database");
+                            $("#alert").addClass("alert alert-success").attr("role","alert").html("The product was removed from your To Buy list!").append('<button type="button" class="close alert-close" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+
                         }).fail(function(err) {
                             console.log(err);
-                            $("#alert").addClass("alert alert-danger").attr("role","alert").html("<b>Oh snap!</b> Some problem occured removing the product from the To Buy List");
+                            $("#alert").addClass("alert alert-danger").attr("role","alert").html("<b>Oh snap!</b> Some problem occured removing the product from the To Buy List").append('<button type="button" class="close alert-close" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
                         });
-                        $(this).closest('tr').remove();
-                        var num_rows = $('#shopping_list tr').length - 1;
-                        if(num_rows === 0){
-                            $('#shopping_list tbody').append(
-                                '<tr class="odd">'+
-                                    '<td valign="top" colspan="3" class="dataTables_empty">No data available in table</td>'+
-                                '</tr>'
-                            );
-                        }
+                        shopping_list_table.row( $(this).closest('tr') ).remove().draw();
                     });
+
+                    $(document).on('click', '.close', function() {
+                        console.log("Hidding");
+                        $(this).parent().hide();
+                    })
                 });
             </script>
 
