@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ToBuyController extends Controller
+class SensorsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -16,8 +16,8 @@ class ToBuyController extends Controller
         $this->middleware('auth');
     }
 
-    public function shopping_list()
+    public function sensors()
     {
-        return view('shopping_list');
+        return view('sensors');
     }
 }

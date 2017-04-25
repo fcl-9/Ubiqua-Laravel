@@ -25,24 +25,4 @@ class HomeController extends Controller
     {
         return view('home');
     }
-
-    public function recipes()
-    {
-        return view('recipes');
-    }
-
-    public function shopping_list()
-    {
-        return view('shopping_list');
-    }
-
-    public function sensors()
-    {
-        return view('sensors');
-    }
-
-    public function settings()
-    {
-        return view('settings');
-    }
 }
