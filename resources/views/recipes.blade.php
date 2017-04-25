@@ -14,5 +14,6 @@
         <img width="40" height="40" src="/img/g2.png">
         <span class="font-header"> Recipes </span>
     </div>
+    {{ $recipes }}
     <hr>
 @endsection

@@ -23,10 +23,8 @@ Route::get('/stock', 'StockController@stock');
 
 Route::get('/shopping_list', 'ToBuyController@index');
 
-Route::get('/sensors', 'HomeController@sensors');
+Route::get('/sensors', 'SensorsController@sensors');
 
-Route::get('/recipes', 'HomeController@recipes');
-
-Route::get('/settings', 'HomeController@settings');
+Route::get('/recipes', 'RecipesController@recipes');
 
 

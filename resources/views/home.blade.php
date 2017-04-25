@@ -40,7 +40,7 @@
 @section('content')
     <div class="container">
         <div class="row" style="height: 100%;">
-            <div class="col-md-6 " style="height: 100%; padding-right: 0;">
+            <div class="col-md-6 hidden-xs" style="height: 100%; padding-right: 0;">
                 <div class="clock-container">
                     <div id="myclock" style="margin-top:80px;"></div>
                 </div>

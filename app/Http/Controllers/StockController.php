@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 
 class StockController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function stock()
     {
         return view('stock')->with("stocks", $this->getStock());
