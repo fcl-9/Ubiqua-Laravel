@@ -83,19 +83,17 @@
                 var selected = $(this);
                 var id_product = selected.next().val();
                 $.post("/api/product/" + id_product + "/state", {"state": "TOBUY"} ,function() {
-                    $("#alert").addClass("alert alert-success alert-dismissible")
-                        .attr("role","alert")
-                        .html("The product was added to your To Buy list!")
-                        .append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+                    $("#alert").addClass("alert alert-success").attr("role","alert").html("The product was added to your To Buy list!").append('<button type="button" class="close alert-close" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
                     selected.parent().prev().addClass("text-danger").text("Need To Buy");
                     selected.replaceWith("-");
                 }).fail(function(err) {
                     console.log(err);
-                    $("#alert").addClass("alert alert-danger alert-dismissible")
-                        .attr("role","alert")
-                        .html("<b>Oh snap!</b> Some problem occured adding the product to the To Buy List")
-                        .append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+                    $("#alert").addClass("alert alert-danger").attr("role","alert").html("<b>Oh snap!</b> Some problem occured adding the product to the To Buy List").append('<button type="button" class="close alert-close" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
                 })
+            });
+            $(document).on('click', '.close', function() {
+                console.log("Hidding");
+                $(this).parent().hide();
             })
         } );
     </script>
