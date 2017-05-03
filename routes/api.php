@@ -22,5 +22,7 @@ Route::middleware('api')->post('/device', "DeviceController@handleDeviceRegistra
 Route::middleware('api')->post('/sensors/data', "ProductItemController@handleNewProductsInformation");
 
 Route::middleware('api')->get('/product/name/',"ProductController@getNameNotInBuyList");
+
 Route::middleware('api')->post('/product/{id}/state', "ProductController@handleProductStateChange");
 
+Route::middleware('api')->get('/product_item/{id}',"ProductItemController@getItem");

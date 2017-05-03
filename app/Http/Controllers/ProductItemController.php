@@ -50,20 +50,16 @@ class ProductItemController extends Controller
             $request = $request->json()->all();
             $device_id = $request["device_id"];
             $beacons = json_decode($request["beacons"],true);
-            $total_weight_when_closed = $request["weight"];
             try {
                 foreach ($beacons as $beacon) {
-                    var_dump($beacon);
                     $id = $beacon["uuid"];
-                    var_dump($id);
                     $product_id = $beacon["major"];
                     $lot_id = $beacon["minor"];
                     $distance = $beacon["distance"];
-                    $total_weight = $beacon["total_weight"];
+                    $weight = $beacon["weight"];
                     $product_item = $this->getProductItem($id);
                     if (is_null($product_item)) {
                         // product_item is new
-                        $weight = $this->getNewProductWeight($product_id);
                         $this->addNewProductItem($id, $weight, $device_id, $product_id, $lot_id, $distance);
                     } else {
                         // product_item already exists in DB
@@ -71,12 +67,10 @@ class ProductItemController extends Controller
                             // Don't need to do anything
                         } else {
                             // change state to IN update weight and distance
-                            $weight = $this->getExistingProductNewWeight($total_weight);
                             $this->changeProductItemStateWeightDistance($product_item, $weight, $distance);
                         }
                     }
                 }
-
                 // check for missing products
                 $actual_products = Product_item::where("state", "IN")->get();
                 foreach ($actual_products as $actual_product) {
@@ -92,7 +86,6 @@ class ProductItemController extends Controller
                         $this->changeProductStateToOUT($actual_product);
                     }
                 }
-                var_dump("will commit");
                 \DB::commit();
                 return response()->json(["message" => "success"]);
             }
@@ -143,9 +136,13 @@ class ProductItemController extends Controller
     }
 
     private function updateStockState($product_id) {
+
         $product = Product::find($product_id);
         $product_lots = $product->lot;
-        $items_available = $product_lots->product_item->where("state","IN")->count();
+        $items_available = 0;
+        foreach ($product_lots as $lot) {
+            $items_available += $lot->product_item->where("state","IN")->count();
+        }
         if ($items_available > self::THRESHOLD) {
             $product->state = "ONSTOCK";
         }
@@ -153,5 +150,35 @@ class ProductItemController extends Controller
             $product->state = "TOBUY";
         }
         $product->save();
+
+    }
+
+    public function getItem(Request $request, $id)
+    {
+        $product_item = $this->getProductItem($id);
+        if(is_null($product_item)) {
+            return response()->json([
+                'message' => 'Record not found',
+            ], 404);
+        }
+        else {
+            if ($request->has('state')) {
+                if ($product_item->state == $request->state) {
+                    return response()->json([
+                        'message' => 'Record exists',
+                    ], 200);
+                }
+                else {
+                    return response()->json([
+                        'message' => 'Record not found',
+                    ], 404);
+                }
+            }
+            else {
+                return response()->json([
+                    'message' => 'Expecting state query string',
+                ], 400);
+            }
+        }
     }
 }
