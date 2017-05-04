@@ -26,3 +26,9 @@ Route::middleware('api')->get('/product/name/',"ProductController@getNameNotInBu
 Route::middleware('api')->post('/product/{id}/state', "ProductController@handleProductStateChange");
 
 Route::middleware('api')->get('/product_item/{id}',"ProductItemController@getItem");
+
+Route::middleware('api')->post('/sensors/beacons', "SensorsAPIController@handleBeaconsData");
+
+Route::middleware('api')->post('/sensors/luminosity', "SensorsAPIController@handleLuminosityData");
+
+Route::middleware('api')->post('/sensors/weight', "SensorsAPIController@handleWeightData");
