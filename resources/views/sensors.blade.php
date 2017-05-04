@@ -34,7 +34,7 @@
             <span class="sensor-font"> <i class="fa fa-bluetooth-b" aria-hidden="true"></i>   Beacons</span><br>
             <div id="beacons" style="height: 300px"></div>
             <a href="/beacon"> Download Beacon Data </a>
-        </a>
+        </div>
     </div>
 @endsection
 
@@ -57,7 +57,6 @@
                 drawLuminosity();
                 drawWeight();
                 drawBeacons();
-                drawToolbar();
             }
 
             function drawBeacons() {
@@ -90,7 +89,7 @@
                     else {
                         $("#beacons").text(result.value);
                     }
-                })
+                });
                 beaconSocketHandlers('ws://shelf.local:8484/pi/sensors/beacons', chart, data, options);
             }
 
