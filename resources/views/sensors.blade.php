@@ -22,16 +22,19 @@
     <div class="row">
         <div class="col-md-4 text-center">
             <span class="sensor-font"> <i class="fa fa-lightbulb-o" aria-hidden="true"></i>   Luminosity</span><br>
-            <div id="luminosity"></div>
+            <div id="luminosity" style="height: 300px"></div>
+            <a href="/luminosity"> Download Luminosity Data </a>
         </div>
         <div class="col-md-4 text-center">
             <span class="sensor-font"> <i class="fa fa-balance-scale" aria-hidden="true"></i>   Weight</span><br>
-            <div id="weight"></div>
+            <div id="weight" style="height: 300px"></div>
+            <a href="/weight"> Download Weight Data </a>
         </div>
         <div class="col-md-4 text-center">
             <span class="sensor-font"> <i class="fa fa-bluetooth-b" aria-hidden="true"></i>   Beacons</span><br>
-            <div id="beacons"></div>
-        </div>
+            <div id="beacons" style="height: 300px"></div>
+            <a href="/beacon"> Download Beacon Data </a>
+        </a>
     </div>
 @endsection
 
@@ -54,6 +57,7 @@
                 drawLuminosity();
                 drawWeight();
                 drawBeacons();
+                drawToolbar();
             }
 
             function drawBeacons() {
@@ -71,7 +75,8 @@
                         duration: 500,
                         easing: 'linear'
                     },
-                    legend: {position: 'none'}
+                    legend: {position: 'none'},
+                    height:300
                 };
 
                 var data = google.visualization.arrayToDataTable([
@@ -140,6 +145,7 @@
 
                 socketHandlers('ws://shelf.local:8484/pi/sensors/luminosity', chart, data, options, "#luminosity");
             }
+
 
             function beaconSocketHandlers(url, chart, data, options) {
                 $("#beacons").text("Please wait until we get some information...");

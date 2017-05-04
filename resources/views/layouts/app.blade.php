@@ -48,7 +48,8 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/home') }}">
-                        <span class="white">{{ config('app.name', 'Laravel') }}</span>
+
+                        <span class="white"> {{ config('app.name', 'Laravel') }}</span>
                     </a>
                 </div>
 

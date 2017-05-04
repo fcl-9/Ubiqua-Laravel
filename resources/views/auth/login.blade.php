@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="col-md-6 col-sm-3 hidden-xs" style="background-color: #00b3ee; height:100%; border-left-color: #8c8c8c">
             <div style="position:relative; height:100%">
-                <p class="message">Smart Shelf allows you to collaborate, experiment, and test much more effectivelly and efficiently</p>
+                <img class="img-responsive" style="position: absolute; left: 0;right: 0;top:80px;margin-left: auto;margin-right: auto;width: 200px;" src="/img/Logo1.png">
             </div>
         </div>
 

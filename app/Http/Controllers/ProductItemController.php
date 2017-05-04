@@ -48,22 +48,32 @@ class ProductItemController extends Controller
     {
         \DB::transaction(function() use($request){
             $request = $request->json()->all();
+            //var_dump($request);
             $device_id = $request["device_id"];
             $beacons = json_decode($request["beacons"],true);
+            //var_dump($beacons);
             try {
                 foreach ($beacons as $beacon) {
                     $id = $beacon["uuid"];
                     $product_id = $beacon["major"];
                     $lot_id = $beacon["minor"];
                     $distance = $beacon["distance"];
-                    $weight = $beacon["weight"];
+                    if (!is_null($beacon["weight"])) {
+                        $weight = $beacon["weight"];
+                    }
+                    var_dump( "Qualquer coisa depois do IF");
+
                     $product_item = $this->getProductItem($id);
+                    var_dump($product_item);
                     if (is_null($product_item)) {
                         // product_item is new
+                        var_dump("There are product that don't exist.");
                         $this->addNewProductItem($id, $weight, $device_id, $product_id, $lot_id, $distance);
                     } else {
+                        var_dump("Qualquer merda uma mensagem para ai");
                         // product_item already exists in DB
                         if ($product_item->state == "IN") {
+                            var_dump("There product already existss.");
                             // Don't need to do anything
                         } else {
                             // change state to IN update weight and distance
@@ -98,7 +108,10 @@ class ProductItemController extends Controller
 
     public function getProductItem($id)
     {
-        return Product_item::find($id);
+        var_dump($id);
+        $var = Product_item::find($id);
+        var_dump($var);
+        return $var;
     }
 
     private function changeProductItemWeightDistance($product_item, $weight, $distance)
@@ -143,7 +156,7 @@ class ProductItemController extends Controller
         foreach ($product_lots as $lot) {
             $items_available += $lot->product_item->where("state","IN")->count();
         }
-        if ($items_available > self::THRESHOLD) {
+        if ($items_available >= self::THRESHOLD) {
             $product->state = "ONSTOCK";
         }
         else {
