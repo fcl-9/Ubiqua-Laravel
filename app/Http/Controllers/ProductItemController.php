@@ -50,6 +50,7 @@ class ProductItemController extends Controller
             $request = $request->json()->all();
             //var_dump($request);
             $device_id = $request["device_id"];
+            //var_dump($request["beacons"]);
             $beacons = json_decode($request["beacons"],true);
             //var_dump($beacons);
             try {
@@ -72,10 +73,13 @@ class ProductItemController extends Controller
                     } else {
                         var_dump("Qualquer merda uma mensagem para ai");
                         // product_item already exists in DB
+                        var_dump($product_item["state"]);
                         if ($product_item->state == "IN") {
-                            var_dump("There product already existss.");
+                            var_dump("There product already exists.");
                             // Don't need to do anything
                         } else {
+                            var_dump("Sem vars");
+                            var_dump("Peso: " . $weight . " Product Item : " . $product_item);
                             // change state to IN update weight and distance
                             $this->changeProductItemStateWeightDistance($product_item, $weight, $distance);
                         }
@@ -101,7 +105,9 @@ class ProductItemController extends Controller
             }
             catch (\Exception $e) {
                 \DB::rollBack();
-                return response()->json(["message" => "error: ".$e->getMessage()]);
+                var_dump($e->getMessage());
+                throw $e;
+                //return response()->json(["message" => "error: ".$e->getMessage()]);
             }
         });
     }
@@ -127,6 +133,7 @@ class ProductItemController extends Controller
         $product_item = $this->changeProductItemWeight($weight,$product_item);
         $product_item->distance = $distance;
         $product_item->save();
+        var_dump("Savving Product");
         $this->updateStockState($product_item->lot_product_id);
     }
 
