@@ -62,24 +62,24 @@ class ProductItemController extends Controller
                     if (!is_null($beacon["weight"])) {
                         $weight = $beacon["weight"];
                     }
-                    var_dump( "Qualquer coisa depois do IF");
+                    //var_dump( "Qualquer coisa depois do IF");
 
                     $product_item = $this->getProductItem($id);
-                    var_dump($product_item);
+                    //var_dump($product_item);
                     if (is_null($product_item)) {
                         // product_item is new
-                        var_dump("There are product that don't exist.");
+                        //var_dump("There are product that don't exist.");
                         $this->addNewProductItem($id, $weight, $device_id, $product_id, $lot_id, $distance);
                     } else {
-                        var_dump("Qualquer merda uma mensagem para ai");
+                        //var_dump("Qualquer merda uma mensagem para ai");
                         // product_item already exists in DB
-                        var_dump($product_item["state"]);
+                        //var_dump($product_item["state"]);
                         if ($product_item->state == "IN") {
-                            var_dump("There product already exists.");
+                            //var_dump("There product already exists.");
                             // Don't need to do anything
                         } else {
-                            var_dump("Sem vars");
-                            var_dump("Peso: " . $weight . " Product Item : " . $product_item);
+                            //var_dump("Sem vars");
+                            //var_dump("Peso: " . $weight . " Product Item : " . $product_item);
                             // change state to IN update weight and distance
                             $this->changeProductItemStateWeightDistance($product_item, $weight, $distance);
                         }
@@ -114,9 +114,9 @@ class ProductItemController extends Controller
 
     public function getProductItem($id)
     {
-        var_dump($id);
+        //var_dump($id);
         $var = Product_item::find($id);
-        var_dump($var);
+        //var_dump($var);
         return $var;
     }
 
@@ -133,7 +133,7 @@ class ProductItemController extends Controller
         $product_item = $this->changeProductItemWeight($weight,$product_item);
         $product_item->distance = $distance;
         $product_item->save();
-        var_dump("Savving Product");
+        //var_dump("Savving Product");
         $this->updateStockState($product_item->lot_product_id);
     }
 
@@ -198,6 +198,40 @@ class ProductItemController extends Controller
                 return response()->json([
                     'message' => 'Expecting state query string',
                 ], 400);
+            }
+        }
+    }
+
+    public function getItems(Request $request)
+    {
+        if ($request->has('state')) {
+            $product_items = Product_item::where("state",$request->state)->get();
+            if (count($product_items) > 0) {
+                $products = [];
+                foreach ($product_items as $product) {
+                    $prod = array("uuid" => $product["id"], "major" => $product["lot_product_id"],"minor" => $product["lot_id"],
+                        "distance" => $product["distance"], "weight" => $product["actual_weight"]);
+                    array_push($products, $prod);
+                }
+                return response()->json(
+                    $products
+                , 200);
+            }
+            else {
+                return response()->json([], 200);
+            }
+        }
+        else {
+            $product_items = Product_item::all();
+            if (count($product_items) > 0) {
+                return response()->json(
+                    $product_items
+                , 200);
+            }
+            else {
+                return response()->json([
+                    'message' => 'Records not found',
+                ], 404);
             }
         }
     }

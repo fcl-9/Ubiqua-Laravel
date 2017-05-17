@@ -27,9 +27,16 @@ class ProductController extends Controller
         }
     }
 
+    public function getProducts(Request $request)
+    {
+        if ($request->input('state') == "TOBUY") {
+            return $this->getToBuyProducts();
+        }
+    }
+
     private function getToBuyProducts()
     {
-        return Product::where("state", "TOBUY");
+        return response()->json(Product::where("state", "TOBUY")->get());
     }
 
     private function updateProductState($state, $id)
