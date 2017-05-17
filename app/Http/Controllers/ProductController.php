@@ -36,7 +36,7 @@ class ProductController extends Controller
 
     private function getToBuyProducts()
     {
-        return response()->json(Product::where("state", "TOBUY")->get());
+        return response()->json(array("missing_products"=>count(Product::where("state", "TOBUY")->get())));
     }
 
     private function updateProductState($state, $id)
