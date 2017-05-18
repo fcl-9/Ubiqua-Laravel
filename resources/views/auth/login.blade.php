@@ -58,9 +58,12 @@
                                 Login
                             </button>
 
-                            <a class="btn btn-link" href="{{ route('password.request') }}">
-                                Forgot Your Password?
-                            </a>
+                            <p>
+                                Don't Have an Account?
+                                <a class="btn btn-link" href="{{ route('register') }}">
+                                    Register Here!
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </form>
