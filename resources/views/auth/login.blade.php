@@ -10,7 +10,15 @@
 
         <div class="col-md-6 col-sm-9 col-xs-12">
             <div style="position:relative; height:100%; margin-top: calc(100% - 85%); width:90%; margin-left:auto; margin-right: auto;">
-                <h1 style="text-align: center;     margin-bottom: 10%;"></span>Sing-In to Control Your Shelf</h1>
+                <div class=" hidden-sm hidden-lg hidden-md" >
+                    <div style="position:relative; margin:auto; width: 130px; height: 130px; border-radius: 65px; background: #00b3ee; border: #00b3ee">
+                        <img class="img-responsive" style="position: absolute; top:10px; left: 0;right: 0;margin: auto;width: 84px;" src="/img/Logo1.png">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-xs-12">
+                    <h3 style="text-align: center; margin-bottom: 10%;"></span>Sing-In to Control Your Shelf</h3>
+                </div>
                 <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                     {{ csrf_field() }}
 
