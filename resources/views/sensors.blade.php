@@ -150,7 +150,7 @@
                 $("#beacons").text("Please wait until we get some information...");
                 var socket = new WebSocket(url); //#A
                 socket.onmessage = function (event) { //#B
-                    var result = JSON.parse(event.data).value.length;
+                    var result = JSON.parse(event.data).value;
                     addDataPoint(result, chart, data, options);
                 };
 
