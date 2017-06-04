@@ -4,13 +4,19 @@
     <div class="container-fluid">
         <div class="col-md-6 col-sm-3 hidden-xs" style="background-color: #00b3ee; height:100%; border-left-color: #8c8c8c">
             <div style="position:relative; height:100%">
-                <p class="message">Smart Shelf allows you to collaborate, experiment, and test much more effectivelly and efficiently</p>
+                <img class="img-responsive" style="position: absolute; left: 0;right: 0;top:80px;margin-left: auto;margin-right: auto;width: 200px;" src="/img/Logo1.png">
             </div>
         </div>
 
         <div class="col-md-6 col-sm-9 col-xs-12">
             <div style="position:relative; height:100%; margin-top: calc(100% - 85%); width:90%; margin-left:auto; margin-right: auto;">
-                <h1 style="text-align: center;     margin-bottom: 10%;"></span>Register to Control Your Shelf</h1>
+                <div class=" hidden-sm hidden-lg hidden-md" >
+                    <div style="position:relative; margin:auto; width: 130px; height: 130px; border-radius: 65px; background: #00b3ee; border: #00b3ee">
+                        <img class="img-responsive" style="position: absolute; top:10px; left: 0;right: 0;margin: auto;width: 84px;" src="/img/Logo1.png">
+                    </div>
+                </div>
+
+                <h3 style="text-align: center;     margin-bottom: 10%;"></span>Register to Control Your Shelf</h3>
                 <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                     {{ csrf_field() }}
 

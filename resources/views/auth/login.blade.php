@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="col-sm-12 col-xs-12">
-                    <h3 style="text-align: center; margin-bottom: 10%;"></span>Sing-In to Control Your Shelf</h3>
+                    <h3 style="text-align: center; margin-bottom: 10%;"></span>Sign-In to Control Your Shelf</h3>
                 </div>
                 <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                     {{ csrf_field() }}
